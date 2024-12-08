@@ -1,6 +1,6 @@
 # Reddit Niche Bot
 
-This repository contains a Reddit Niche Bot that searches Reddit for specific keywords in posts and comments. It then sends email notifications and generates daily reports using OpenAI's API. The bot is designed to run continuously, checking for new content on Reddit and sending alerts.
+This repository contains a Reddit Niche Bot that searches Reddit for specific keywords in posts and comments. It then sends email notifications and generates daily reports using Gemini's API. The bot is designed to run continuously, checking for new content on Reddit and sending alerts.
 
 ## Features
 

@@ -28,7 +28,7 @@ REDDIT_USER_AGENT=your_reddit_user_agent
 USER_EMAIL=your_email_address
 USER_PASSWORD=your_email_password
 USER_RECIPIENT_EMAIL=recipient_email_address
-OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 ## Steps to Deploy with Docker

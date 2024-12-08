@@ -33,10 +33,19 @@ csv_file = 'results.csv'
 tracking_file = 'tracking.csv'
 
 # OpenAI API configuration
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
+client = OpenAI(
+    api_key= os.environ.get("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/"
+)
 # Keywords to search for
-keywords = ["airbnb", "solve this problem", "I need help for", "how to solve", "how can I do", "where I find", "what can I do", "I have a problem", "help me"]
+keywords = [
+    "video editing", "video production", "video software", "AI video editing", "AI video editor",
+    "fast video editing", "quick video editing", "speed video editor", "video editing performance",
+    "video editing lag", "video editing slow", "video editing competitors", "Adobe Premiere Pro",
+    "Final Cut Pro", "DaVinci Resolve", "Sony Vegas", "HitFilm Express", "Filmora", "Pinnacle Studio",
+    "Corel VideoStudio", "CyberLink PowerDirector", "Magix Movie Edit Pro", "iMovie", "Lightworks",
+    "Shotcut", "OpenShot", "VSDC Free Video Editor", "Blender Video Editing", "Kdenlive", "Avid Media Composer"
+]
 
 def create_csv_if_not_exists(file_name, columns):
     """Create a CSV file with the specified columns if it does not exist."""
@@ -155,15 +164,16 @@ def check_and_send():
         print(f"Error reading or sending emails: {e}")
 
 def create_report(data: str):
-    """Create a report from the data using OpenAI."""
+    """Create a report from the data using Gemini."""
     completion = client.chat.completions.create(
-        model="gpt-4",
+        model="gemini-1.5-flash",
         messages=[
             {"role": "system", "content": "You are an expert assistant in creating data reports to identify real needs of people and then come up with ideas to solve those needs for a software project. You should choose the best data that contains a real problem and use it to create the report to identify pain points, features to solve them, and ideas derived from them that may be viable. Ignore data that is not relevant or does not contain a problem or need."},
             {"role": "user", "content": f"Create a report from this data in Markdown format:\n\n{data}"}
         ],
+        n=1
     )
-    return completion.choices[0].message['content']
+    return completion.choices[0].message.content
 
 def generate_daily_report():
     """Generate and send a daily report."""
@@ -210,7 +220,6 @@ def main():
     create_csv_if_not_exists(csv_file, ["date", "type", "subreddit", "content", "url"])
     create_csv_if_not_exists(tracking_file, ["date", "type", "subreddit", "content", "url"])
     
-    schedule_daily_report()
     while True:
         search_on_reddit()
         check_and_send()
